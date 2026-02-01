@@ -1,26 +1,73 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Mezo official color scheme */
+  --mezo-bg: #ececec;
+  --mezo-nav: #100d2e;
+  --mezo-accent-start: #89a3c6;
+  --mezo-accent-end: #2d2275;
+  --mezo-highlight: #f2e396;
+  --mezo-text: #1a1a2e;
+  --mezo-text-secondary: #5a5a7a;
+  --mezo-card: #ffffff;
+  --mezo-card-border: #d4d4e0;
+  --mezo-error: #dc3545;
+  --mezo-pending: #e6a817;
+
+  --background: var(--mezo-bg);
+  --foreground: var(--mezo-text);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --font-sans: var(--font-inter, ui-sans-serif, system-ui, sans-serif);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Mezo palette tokens */
+  --color-mezo-bg: #ececec;
+  --color-mezo-nav: #100d2e;
+  --color-mezo-accent-start: #89a3c6;
+  --color-mezo-accent-end: #2d2275;
+  --color-mezo-highlight: #f2e396;
+  --color-mezo-text: #1a1a2e;
+  --color-mezo-text-secondary: #5a5a7a;
+  --color-mezo-card: #ffffff;
+  --color-mezo-card-border: #d4d4e0;
+  --color-mezo-error: #dc3545;
+  --color-mezo-pending: #e6a817;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--mezo-bg);
+  color: var(--mezo-text);
+  font-family: var(--font-sans);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #89a3c6;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2d2275;
+}
+
+/* Number input spinner removal */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
 }

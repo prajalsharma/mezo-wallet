@@ -36,10 +36,12 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider
+          modalSize="wide"
+          showRecentTransactions={true}
           theme={lightTheme({
-            accentColor: "#2d2275",
+            accentColor: "#ff004d",
             accentColorForeground: "white",
-            borderRadius: "medium",
+            borderRadius: "large",
             fontStack: "system",
             overlayBlur: "small",
           })}

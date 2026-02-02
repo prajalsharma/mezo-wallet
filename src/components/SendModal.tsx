@@ -150,7 +150,7 @@ export default function SendModal({ asset, onClose }: SendModalProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex items-center justify-center p-4"
+        className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6"
       >
         {/* Backdrop */}
         <motion.div
@@ -158,54 +158,60 @@ export default function SendModal({ asset, onClose }: SendModalProps) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="absolute inset-0 backdrop-blur-sm"
-          style={{ background: "rgba(16, 13, 46, 0.6)" }}
+          style={{ background: "rgba(0, 0, 0, 0.6)" }}
           onClick={handleClose}
         />
 
-        {/* Modal */}
+        {/* Modal - bottom sheet on mobile, centered on desktop */}
         <motion.div
-          initial={{ scale: 0.95, opacity: 0, y: 20 }}
+          initial={{ scale: 0.95, opacity: 0, y: 40 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
-          exit={{ scale: 0.95, opacity: 0, y: 20 }}
+          exit={{ scale: 0.95, opacity: 0, y: 40 }}
           transition={{ type: "spring", duration: 0.4 }}
-          className="relative w-full max-w-md rounded-2xl border shadow-2xl overflow-hidden"
+          className="relative w-full sm:max-w-md rounded-t-3xl sm:rounded-2xl border-t sm:border shadow-2xl overflow-hidden max-h-[92vh] sm:max-h-[85vh] overflow-y-auto"
           style={{
             background: "#ffffff",
-            borderColor: "#d4d4e0",
+            borderColor: "#e0dcd8",
           }}
         >
+          {/* Mobile drag handle */}
+          <div className="sm:hidden flex justify-center pt-3 pb-1">
+            <div className="w-10 h-1 rounded-full" style={{ background: "#e0dcd8" }} />
+          </div>
+
           {/* Header */}
           <div
-            className="flex items-center justify-between p-5 border-b"
-            style={{ borderColor: "#d4d4e0" }}
+            className="flex items-center justify-between px-5 sm:px-6 py-4 sm:py-5 border-b"
+            style={{ borderColor: "#e0dcd8" }}
           >
             <div className="flex items-center gap-3">
               <div
-                className="w-8 h-8 rounded-full flex items-center justify-center"
-                style={{ background: "#f5f5f8" }}
+                className="w-10 h-10 rounded-full flex items-center justify-center"
+                style={{ background: "#f4f0ed" }}
               >
-                <Image src={asset.icon} alt={asset.symbol} width={24} height={24} />
+                <Image src={asset.icon} alt={asset.symbol} width={28} height={28} />
               </div>
               <div>
-                <h3 className="font-semibold text-sm" style={{ color: "#100d2e" }}>
+                <h3 className="font-semibold text-base" style={{ color: "#000000" }}>
                   Send {asset.symbol}
                 </h3>
-                <p className="text-xs" style={{ color: "#5a5a7a" }}>
+                <p className="text-xs sm:text-sm" style={{ color: "#5e5e5e" }}>
                   Balance: {asset.balance} {asset.symbol}
                 </p>
               </div>
             </div>
-            <button
+            <motion.button
+              whileTap={{ scale: 0.9 }}
               onClick={handleClose}
-              className="p-2 rounded-lg transition-colors"
-              style={{ color: "#5a5a7a" }}
+              className="p-2.5 rounded-xl transition-colors hover:bg-gray-100"
+              style={{ color: "#5e5e5e" }}
             >
-              <X size={18} />
-            </button>
+              <X size={20} />
+            </motion.button>
           </div>
 
           {/* Content */}
-          <div className="p-5">
+          <div className="px-5 sm:px-7 py-6 sm:py-7">
             <AnimatePresence mode="wait">
               {/* INPUT STEP */}
               {step === "input" && (
@@ -214,12 +220,12 @@ export default function SendModal({ asset, onClose }: SendModalProps) {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
-                  className="space-y-4"
+                  className="space-y-5"
                 >
                   <div>
                     <label
-                      className="block text-xs font-medium mb-2"
-                      style={{ color: "#5a5a7a" }}
+                      className="block text-xs sm:text-sm font-medium mb-2.5"
+                      style={{ color: "#5e5e5e" }}
                     >
                       Recipient Address
                     </label>
@@ -231,19 +237,19 @@ export default function SendModal({ asset, onClose }: SendModalProps) {
                         setError("");
                       }}
                       placeholder="0x..."
-                      className="w-full px-4 py-3 rounded-xl border text-sm font-mono focus:outline-none transition-all"
+                      className="w-full px-4 py-3.5 rounded-xl border text-sm font-mono focus:outline-none transition-all"
                       style={{
-                        background: "#f5f5f8",
-                        borderColor: "#d4d4e0",
-                        color: "#100d2e",
+                        background: "#f4f0ed",
+                        borderColor: "#e0dcd8",
+                        color: "#000000",
                       }}
                     />
                   </div>
 
                   <div>
                     <label
-                      className="block text-xs font-medium mb-2"
-                      style={{ color: "#5a5a7a" }}
+                      className="block text-xs sm:text-sm font-medium mb-2.5"
+                      style={{ color: "#5e5e5e" }}
                     >
                       Amount
                     </label>
@@ -258,44 +264,45 @@ export default function SendModal({ asset, onClose }: SendModalProps) {
                         placeholder="0.00"
                         step="any"
                         min="0"
-                        className="w-full px-4 py-3 pr-20 rounded-xl border text-sm font-mono focus:outline-none transition-all"
+                        className="w-full px-4 py-3.5 pr-20 rounded-xl border text-sm font-mono focus:outline-none transition-all"
                         style={{
-                          background: "#f5f5f8",
-                          borderColor: "#d4d4e0",
-                          color: "#100d2e",
+                          background: "#f4f0ed",
+                          borderColor: "#e0dcd8",
+                          color: "#000000",
                         }}
                       />
-                      <button
+                      <motion.button
+                        whileTap={{ scale: 0.95 }}
                         onClick={() => setAmount(asset.balance)}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 px-2 py-1 rounded-md text-xs font-semibold transition-colors"
+                        className="absolute right-2.5 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors"
                         style={{
-                          background: "rgba(45, 34, 117, 0.1)",
-                          color: "#2d2275",
+                          background: "rgba(255, 0, 77, 0.1)",
+                          color: "#ff004d",
                         }}
                       >
                         MAX
-                      </button>
+                      </motion.button>
                     </div>
                   </div>
 
                   {/* Gas Estimate */}
                   {estimatedGas && (
                     <div
-                      className="flex items-start gap-2 p-3 rounded-xl border"
+                      className="flex items-start gap-2.5 p-3.5 rounded-xl border"
                       style={{
-                        background: "rgba(242, 227, 150, 0.15)",
-                        borderColor: "rgba(242, 227, 150, 0.3)",
+                        background: "rgba(230, 168, 23, 0.08)",
+                        borderColor: "rgba(230, 168, 23, 0.2)",
                       }}
                     >
-                      <Fuel size={14} className="mt-0.5 flex-shrink-0" style={{ color: "#e6a817" }} />
+                      <Fuel size={15} className="mt-0.5 flex-shrink-0" style={{ color: "#e6a817" }} />
                       <div>
-                        <p className="text-xs" style={{ color: "#100d2e" }}>
+                        <p className="text-xs sm:text-sm" style={{ color: "#000000" }}>
                           <span className="font-medium">Estimated fee:</span>{" "}
                           {parseFloat(estimatedGas).toFixed(10)} BTC
                         </p>
-                        <p className="text-xs mt-0.5 flex items-center gap-1" style={{ color: "#5a5a7a" }}>
+                        <p className="text-xs mt-1 flex items-center gap-1" style={{ color: "#5e5e5e" }}>
                           <Info size={10} />
-                          This covers the network cost to process your transaction
+                          Network cost to process your transaction
                         </p>
                       </div>
                     </div>
@@ -305,22 +312,22 @@ export default function SendModal({ asset, onClose }: SendModalProps) {
                     <motion.p
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      className="text-xs flex items-center gap-1"
+                      className="text-xs sm:text-sm flex items-center gap-1.5"
                       style={{ color: "#dc3545" }}
                     >
-                      <AlertCircle size={12} />
+                      <AlertCircle size={14} />
                       {error}
                     </motion.p>
                   )}
 
                   <motion.button
                     whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={handleContinue}
-                    className="w-full py-3 rounded-xl text-white font-semibold text-sm shadow-lg transition-all flex items-center justify-center gap-2"
+                    className="w-full py-3.5 sm:py-4 rounded-xl text-white font-semibold text-sm sm:text-base shadow-lg transition-all flex items-center justify-center gap-2"
                     style={{
-                      background: "linear-gradient(135deg, #89a3c6, #2d2275)",
-                      boxShadow: "0 4px 16px rgba(45, 34, 117, 0.25)",
+                      background: "#ff004d",
+                      boxShadow: "0 4px 16px rgba(255, 0, 77, 0.25)",
                     }}
                   >
                     Continue
@@ -336,33 +343,33 @@ export default function SendModal({ asset, onClose }: SendModalProps) {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
-                  className="space-y-4"
+                  className="space-y-5"
                 >
                   <div
-                    className="rounded-xl p-4 border space-y-3"
-                    style={{ background: "#f5f5f8", borderColor: "#d4d4e0" }}
+                    className="rounded-xl sm:rounded-2xl p-4 sm:p-5 border space-y-3.5"
+                    style={{ background: "#f4f0ed", borderColor: "#e0dcd8" }}
                   >
-                    <div className="flex justify-between">
-                      <span className="text-xs" style={{ color: "#5a5a7a" }}>Sending</span>
-                      <span className="text-sm font-semibold" style={{ color: "#100d2e" }}>
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs sm:text-sm" style={{ color: "#5e5e5e" }}>Sending</span>
+                      <span className="text-sm sm:text-base font-semibold" style={{ color: "#000000" }}>
                         {amount} {asset.symbol}
                       </span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-xs" style={{ color: "#5a5a7a" }}>To</span>
-                      <span className="text-xs font-mono" style={{ color: "#100d2e" }}>
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs sm:text-sm" style={{ color: "#5e5e5e" }}>To</span>
+                      <span className="text-xs sm:text-sm font-mono" style={{ color: "#000000" }}>
                         {recipient.slice(0, 10)}...{recipient.slice(-6)}
                       </span>
                     </div>
                     {estimatedGas && (
                       <div
-                        className="flex justify-between border-t pt-3"
-                        style={{ borderColor: "#d4d4e0" }}
+                        className="flex justify-between items-center border-t pt-3.5"
+                        style={{ borderColor: "#e0dcd8" }}
                       >
-                        <span className="text-xs" style={{ color: "#5a5a7a" }}>
+                        <span className="text-xs sm:text-sm" style={{ color: "#5e5e5e" }}>
                           Network Fee
                         </span>
-                        <span className="text-xs" style={{ color: "#100d2e" }}>
+                        <span className="text-xs sm:text-sm" style={{ color: "#000000" }}>
                           ~{parseFloat(estimatedGas).toFixed(10)} BTC
                         </span>
                       </div>
@@ -370,38 +377,39 @@ export default function SendModal({ asset, onClose }: SendModalProps) {
                   </div>
 
                   <div
-                    className="flex items-start gap-2 p-3 rounded-xl border"
+                    className="flex items-start gap-2.5 p-3.5 rounded-xl border"
                     style={{
-                      background: "rgba(242, 227, 150, 0.1)",
-                      borderColor: "rgba(242, 227, 150, 0.25)",
+                      background: "rgba(230, 168, 23, 0.08)",
+                      borderColor: "rgba(230, 168, 23, 0.2)",
                     }}
                   >
-                    <AlertCircle size={14} className="mt-0.5 flex-shrink-0" style={{ color: "#e6a817" }} />
-                    <p className="text-xs" style={{ color: "#5a5a7a" }}>
+                    <AlertCircle size={15} className="mt-0.5 flex-shrink-0" style={{ color: "#e6a817" }} />
+                    <p className="text-xs sm:text-sm" style={{ color: "#5e5e5e" }}>
                       Please verify the recipient address. Transactions on the blockchain cannot be reversed.
                     </p>
                   </div>
 
                   <div className="flex gap-3">
-                    <button
+                    <motion.button
+                      whileTap={{ scale: 0.97 }}
                       onClick={() => setStep("input")}
-                      className="flex-1 py-3 rounded-xl border font-medium text-sm transition-colors"
+                      className="flex-1 py-3.5 rounded-xl border font-medium text-sm sm:text-base transition-colors"
                       style={{
-                        background: "#f5f5f8",
-                        borderColor: "#d4d4e0",
-                        color: "#5a5a7a",
+                        background: "#f4f0ed",
+                        borderColor: "#e0dcd8",
+                        color: "#5e5e5e",
                       }}
                     >
                       Back
-                    </button>
+                    </motion.button>
                     <motion.button
                       whileHover={{ scale: 1.01 }}
-                      whileTap={{ scale: 0.99 }}
+                      whileTap={{ scale: 0.98 }}
                       onClick={handleSend}
-                      className="flex-1 py-3 rounded-xl text-white font-semibold text-sm shadow-lg transition-all"
+                      className="flex-1 py-3.5 rounded-xl text-white font-semibold text-sm sm:text-base shadow-lg transition-all"
                       style={{
-                        background: "linear-gradient(135deg, #89a3c6, #2d2275)",
-                        boxShadow: "0 4px 16px rgba(45, 34, 117, 0.25)",
+                        background: "#ff004d",
+                        boxShadow: "0 4px 16px rgba(255, 0, 77, 0.25)",
                       }}
                     >
                       Confirm Send
@@ -416,7 +424,7 @@ export default function SendModal({ asset, onClose }: SendModalProps) {
                   key="sending"
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="flex flex-col items-center py-8"
+                  className="flex flex-col items-center py-10 sm:py-12"
                 >
                   <motion.div
                     animate={{ rotate: 360 }}
@@ -426,12 +434,12 @@ export default function SendModal({ asset, onClose }: SendModalProps) {
                       ease: "linear",
                     }}
                   >
-                    <Loader2 size={40} style={{ color: "#2d2275" }} />
+                    <Loader2 size={44} style={{ color: "#ff004d" }} />
                   </motion.div>
-                  <p className="mt-4 font-medium" style={{ color: "#100d2e" }}>
+                  <p className="mt-5 font-medium text-base" style={{ color: "#000000" }}>
                     {txHash ? "Waiting for confirmation..." : "Sending transaction..."}
                   </p>
-                  <p className="text-xs mt-1" style={{ color: "#5a5a7a" }}>
+                  <p className="text-sm mt-1.5" style={{ color: "#5e5e5e" }}>
                     {txHash
                       ? "Your transaction is being confirmed on the network"
                       : "Please confirm in your wallet"}
@@ -441,8 +449,8 @@ export default function SendModal({ asset, onClose }: SendModalProps) {
                       href={getExplorerTxUrl(network, txHash)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-3 text-xs hover:underline"
-                      style={{ color: "#2d2275" }}
+                      className="mt-4 text-sm hover:underline"
+                      style={{ color: "#ff004d" }}
                     >
                       View on Explorer →
                     </a>
@@ -456,21 +464,21 @@ export default function SendModal({ asset, onClose }: SendModalProps) {
                   key="success"
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="flex flex-col items-center py-8"
+                  className="flex flex-col items-center py-10 sm:py-12"
                 >
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: "spring", delay: 0.1 }}
-                    className="w-16 h-16 rounded-full flex items-center justify-center"
-                    style={{ background: "rgba(242, 227, 150, 0.2)" }}
+                    className="w-18 h-18 sm:w-20 sm:h-20 rounded-full flex items-center justify-center"
+                    style={{ background: "rgba(45, 138, 78, 0.1)" }}
                   >
-                    <CheckCircle2 size={36} style={{ color: "#2d8a4e" }} />
+                    <CheckCircle2 size={40} style={{ color: "#2d8a4e" }} />
                   </motion.div>
-                  <p className="mt-4 font-medium" style={{ color: "#100d2e" }}>
+                  <p className="mt-5 font-medium text-base" style={{ color: "#000000" }}>
                     Transaction Confirmed!
                   </p>
-                  <p className="text-xs mt-1 text-center" style={{ color: "#5a5a7a" }}>
+                  <p className="text-sm mt-1.5 text-center" style={{ color: "#5e5e5e" }}>
                     {amount} {asset.symbol} sent successfully
                   </p>
                   {txHash && (
@@ -478,23 +486,24 @@ export default function SendModal({ asset, onClose }: SendModalProps) {
                       href={getExplorerTxUrl(network, txHash)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-3 text-xs hover:underline"
-                      style={{ color: "#2d2275" }}
+                      className="mt-4 text-sm hover:underline"
+                      style={{ color: "#ff004d" }}
                     >
                       View on Explorer →
                     </a>
                   )}
-                  <button
+                  <motion.button
+                    whileTap={{ scale: 0.97 }}
                     onClick={handleClose}
-                    className="mt-6 px-6 py-2 rounded-xl border text-sm font-medium transition-colors"
+                    className="mt-7 px-8 py-2.5 rounded-xl border text-sm font-medium transition-colors"
                     style={{
-                      background: "#f5f5f8",
-                      borderColor: "#d4d4e0",
-                      color: "#5a5a7a",
+                      background: "#f4f0ed",
+                      borderColor: "#e0dcd8",
+                      color: "#5e5e5e",
                     }}
                   >
                     Done
-                  </button>
+                  </motion.button>
                 </motion.div>
               )}
 
@@ -504,48 +513,50 @@ export default function SendModal({ asset, onClose }: SendModalProps) {
                   key="error"
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="flex flex-col items-center py-8"
+                  className="flex flex-col items-center py-10 sm:py-12"
                 >
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: "spring", delay: 0.1 }}
-                    className="w-16 h-16 rounded-full flex items-center justify-center"
+                    className="w-18 h-18 sm:w-20 sm:h-20 rounded-full flex items-center justify-center"
                     style={{ background: "rgba(220, 53, 69, 0.1)" }}
                   >
-                    <AlertCircle size={36} style={{ color: "#dc3545" }} />
+                    <AlertCircle size={40} style={{ color: "#dc3545" }} />
                   </motion.div>
-                  <p className="mt-4 font-medium" style={{ color: "#100d2e" }}>
+                  <p className="mt-5 font-medium text-base" style={{ color: "#000000" }}>
                     Transaction Failed
                   </p>
-                  <p className="text-xs mt-1 text-center max-w-xs" style={{ color: "#5a5a7a" }}>
+                  <p className="text-sm mt-1.5 text-center max-w-xs" style={{ color: "#5e5e5e" }}>
                     {error || "Something went wrong"}
                   </p>
-                  <div className="flex gap-3 mt-6">
-                    <button
+                  <div className="flex gap-3 mt-7">
+                    <motion.button
+                      whileTap={{ scale: 0.97 }}
                       onClick={handleClose}
-                      className="px-4 py-2 rounded-xl border text-sm font-medium transition-colors"
+                      className="px-5 py-2.5 rounded-xl border text-sm font-medium transition-colors"
                       style={{
-                        background: "#f5f5f8",
-                        borderColor: "#d4d4e0",
-                        color: "#5a5a7a",
+                        background: "#f4f0ed",
+                        borderColor: "#e0dcd8",
+                        color: "#5e5e5e",
                       }}
                     >
                       Close
-                    </button>
-                    <button
+                    </motion.button>
+                    <motion.button
+                      whileTap={{ scale: 0.97 }}
                       onClick={() => {
                         setStep("input");
                         setError("");
                         setTxHash(undefined);
                       }}
-                      className="px-4 py-2 rounded-xl text-white text-sm font-medium transition-colors"
+                      className="px-5 py-2.5 rounded-xl text-white text-sm font-medium transition-colors"
                       style={{
-                        background: "linear-gradient(135deg, #89a3c6, #2d2275)",
+                        background: "#ff004d",
                       }}
                     >
                       Try Again
-                    </button>
+                    </motion.button>
                   </div>
                 </motion.div>
               )}

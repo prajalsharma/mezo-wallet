@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  /* Mezo official color scheme */
-  --mezo-bg: #ececec;
-  --mezo-nav: #100d2e;
-  --mezo-accent-start: #89a3c6;
-  --mezo-accent-end: #2d2275;
-  --mezo-highlight: #f2e396;
-  --mezo-text: #1a1a2e;
-  --mezo-text-secondary: #5a5a7a;
+  /* Mezo official color scheme (from mezo.org) */
+  --mezo-bg: #f4f0ed;
+  --mezo-nav: #000000;
+  --mezo-accent: #ff004d;
+  --mezo-accent-dark: #990070;
+  --mezo-text: #000000;
+  --mezo-text-secondary: #5e5e5e;
   --mezo-card: #ffffff;
-  --mezo-card-border: #d4d4e0;
+  --mezo-card-border: #e0dcd8;
   --mezo-error: #dc3545;
   --mezo-pending: #e6a817;
+  --mezo-success: #2d8a4e;
 
   --background: var(--mezo-bg);
   --foreground: var(--mezo-text);
@@ -24,15 +24,14 @@
   --font-sans: var(--font-inter, ui-sans-serif, system-ui, sans-serif);
 
   /* Mezo palette tokens */
-  --color-mezo-bg: #ececec;
-  --color-mezo-nav: #100d2e;
-  --color-mezo-accent-start: #89a3c6;
-  --color-mezo-accent-end: #2d2275;
-  --color-mezo-highlight: #f2e396;
-  --color-mezo-text: #1a1a2e;
-  --color-mezo-text-secondary: #5a5a7a;
+  --color-mezo-bg: #f4f0ed;
+  --color-mezo-nav: #000000;
+  --color-mezo-accent: #ff004d;
+  --color-mezo-accent-dark: #990070;
+  --color-mezo-text: #000000;
+  --color-mezo-text-secondary: #5e5e5e;
   --color-mezo-card: #ffffff;
-  --color-mezo-card-border: #d4d4e0;
+  --color-mezo-card-border: #e0dcd8;
   --color-mezo-error: #dc3545;
   --color-mezo-pending: #e6a817;
 }
@@ -53,12 +52,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #89a3c6;
+  background: #ccc5be;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #2d2275;
+  background: #ff004d;
 }
 
 /* Number input spinner removal */
@@ -70,4 +69,118 @@ input[type="number"]::-webkit-outer-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+/* Focus ring styles for accessibility */
+input:focus,
+button:focus-visible {
+  outline: 2px solid #ff004d;
+  outline-offset: 2px;
+}
+
+/* Smooth focus transitions on inputs */
+input {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus {
+  border-color: #ff004d !important;
+  box-shadow: 0 0 0 3px rgba(255, 0, 77, 0.1);
+}
+
+/* ============================================
+   RainbowKit wallet modal – centering & overflow
+   ============================================ */
+
+/* Overlay: fixed, full viewport, centered */
+[data-rk] [aria-modal="true"],
+[data-rk] [role="dialog"] {
+  position: fixed !important;
+  inset: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 9999 !important;
+  padding: 16px !important;
+}
+
+/* The actual dialog box — wide enough for wallet icons + labels */
+[data-rk] [role="dialog"] > div,
+[data-rk] [aria-modal="true"] > div {
+  max-width: 480px !important;
+  min-width: min(420px, calc(100vw - 32px)) !important;
+  width: 100% !important;
+  max-height: 85vh !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  border-radius: 20px !important;
+  margin: auto !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Mobile tweaks – bottom sheet, bigger touch targets */
+@media (max-width: 640px) {
+  [data-rk] [role="dialog"] > div,
+  [data-rk] [aria-modal="true"] > div {
+    max-width: 100% !important;
+    min-width: 100% !important;
+    max-height: 90vh !important;
+    border-radius: 24px 24px 0 0 !important;
+    margin-bottom: 0 !important;
+    padding-bottom: env(safe-area-inset-bottom, 16px) !important;
+  }
+
+  [data-rk] [aria-modal="true"],
+  [data-rk] [role="dialog"] {
+    align-items: flex-end !important;
+    padding: 0 !important;
+  }
+}
+
+/* Wallet option rows – generous sizing for touch */
+[data-rk] [role="dialog"] button {
+  min-height: 48px !important;
+}
+
+/* Prevent body scroll when modal is open */
+body:has([data-rk] [role="dialog"]) {
+  overflow: hidden !important;
+}
+
+/* Ensure RainbowKit close button is accessible */
+[data-rk] [role="dialog"] [aria-label="Close"] {
+  min-width: 44px !important;
+  min-height: 44px !important;
+}
+
+/* Active button press feedback */
+button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Tooltip base */
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 12px;
+  background: #000000;
+  color: #ffffff;
+  font-size: 11px;
+  border-radius: 8px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 50;
+}
+
+[data-tooltip]:hover::after {
+  opacity: 1;
 }

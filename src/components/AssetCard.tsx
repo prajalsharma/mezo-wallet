@@ -18,27 +18,27 @@ export default function AssetCard({ asset, index, onSend }: AssetCardProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.05 * index }}
       whileHover={{ scale: 1.01, y: -2 }}
-      className="group relative overflow-hidden rounded-xl border p-4 transition-all duration-200"
+      className="group relative overflow-hidden rounded-xl sm:rounded-2xl border p-5 sm:p-6 transition-all duration-200"
       style={{
         background: "#ffffff",
-        borderColor: "#d4d4e0",
+        borderColor: "#e0dcd8",
       }}
     >
       {/* Hover glow */}
       <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
         style={{
-          background: "linear-gradient(90deg, rgba(137,163,198,0) 0%, rgba(137,163,198,0.06) 50%, rgba(45,34,117,0.03) 100%)",
+          background: "linear-gradient(90deg, rgba(255,0,77,0) 0%, rgba(255,0,77,0.04) 50%, rgba(153,0,112,0.02) 100%)",
         }}
       />
 
-      <div className="relative flex items-center justify-between">
-        <div className="flex items-center gap-3">
+      <div className="relative flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3 sm:gap-4 min-w-0">
           <div
-            className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden"
+            className="w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0"
             style={{
-              background: "#f5f5f8",
-              border: "1px solid #d4d4e0",
+              background: "#f4f0ed",
+              border: "1px solid #e0dcd8",
             }}
           >
             <Image
@@ -49,23 +49,23 @@ export default function AssetCard({ asset, index, onSend }: AssetCardProps) {
               className="w-8 h-8"
             />
           </div>
-          <div>
-            <p className="font-semibold text-sm" style={{ color: "#100d2e" }}>
+          <div className="min-w-0">
+            <p className="font-semibold text-sm sm:text-base" style={{ color: "#000000" }}>
               {asset.symbol}
             </p>
-            <p className="text-xs" style={{ color: "#5a5a7a" }}>
+            <p className="text-xs sm:text-sm truncate" style={{ color: "#5e5e5e" }}>
               {asset.name}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 sm:gap-5 flex-shrink-0">
           <div className="text-right">
-            <p className="font-medium text-sm" style={{ color: "#100d2e" }}>
+            <p className="font-medium text-sm sm:text-base" style={{ color: "#000000" }}>
               {asset.balance}
             </p>
             {asset.balanceUsd && (
-              <p className="text-xs" style={{ color: "#5a5a7a" }}>
+              <p className="text-xs sm:text-sm" style={{ color: "#5e5e5e" }}>
                 ${asset.balanceUsd}
               </p>
             )}
@@ -73,16 +73,16 @@ export default function AssetCard({ asset, index, onSend }: AssetCardProps) {
 
           <motion.button
             whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileTap={{ scale: 0.92 }}
             onClick={() => onSend(asset)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white text-xs font-semibold shadow-lg transition-all duration-200"
+            className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-white text-xs sm:text-sm font-semibold shadow-lg transition-all duration-200"
             style={{
-              background: "linear-gradient(135deg, #89a3c6, #2d2275)",
-              boxShadow: "0 4px 12px rgba(45, 34, 117, 0.25)",
+              background: "#ff004d",
+              boxShadow: "0 4px 12px rgba(255, 0, 77, 0.25)",
             }}
           >
-            <Send size={12} />
-            Send
+            <Send size={13} />
+            <span className="hidden sm:inline">Send</span>
           </motion.button>
         </div>
       </div>
